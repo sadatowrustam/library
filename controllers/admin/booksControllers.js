@@ -30,7 +30,8 @@ exports.uploadExcel=catchAsync(async(req,res,next)=>{
             name:oneData.name,
             stock:oneData.stock,
             inLibrary:oneData.stock,
-            outLibrary:0
+            outLibrary:0,
+            year:oneData.year
         }
         array.push(obj)
     }

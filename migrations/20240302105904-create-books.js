@@ -12,6 +12,9 @@ module.exports = {
       bookId:{
         type:DataTypes.STRING
       },
+      year:{
+        type:DataTypes.INTEGER
+      },
       name: {
         type: DataTypes.STRING
       },
