@@ -48,7 +48,7 @@ exports.uploadExcel=catchAsync(async(req,res,next)=>{
 exports.getAllBooks=catchAsync(async(req,res,next)=>{
     const limit=req.query.limit || 20
     const offset=req.query.offset || 0
-    const books=await Books.findAll({limit,offset})
+    const books=await Books.findAll({limit,offset,include:{model:Students,as:"received_books"}})
     return res.send(books)
 })
 exports.getOneBook=catchAsync(async(req,res,next)=>{
