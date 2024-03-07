@@ -4,6 +4,7 @@ const catchAsync = require('../../utils/catchAsync');
 const { Books,Givenbooks,Students,Actions } = require('../../models');
 const {promisify}=require("util")
 const reader=require('xlsx');
+const { where } = require('sequelize');
 exports.uploadExcel=catchAsync(async(req,res,next)=>{
     req.files = Object.values(req.files)
     const image = `books.xlsx`;
@@ -59,10 +60,10 @@ exports.getOneBook=catchAsync(async(req,res,next)=>{
 exports.giveBook=catchAsync(async(req,res,next)=>{
     const one_book=await Books.findOne({where:{bookId:req.body.bookId}})
     const student=await Students.findOne({where:{studentId:req.body.studentId}})
-    const givenBook=await Givenbooks.create({bookId:one_book.id,studentId:student.id,status:"given"})
+    const givenBook=await Givenbooks.create({bookId:one_book.id,studentId:student.id})
     one_book.update({inLibrary:one_book.inLibrary-1,outLibrary:one_book.outLibrary+1})
     const d=new Date()
-    const action=await Actions.create({studentId:req.body.studentId,bookId:req.body.bookId,givenDate:d.getDate()+"."+d.getMonth()+"."+d.getFullYear()})
+    const action=await Actions.create({studentId:req.body.studentId,bookId:req.body.bookId,givenDate:d.getDate()+"."+d.getMonth()+"."+d.getFullYear(),status:"given"})
     return res.send(givenBook)
 })
 exports.receiveBook=catchAsync(async(req,res,next)=>{
@@ -72,7 +73,7 @@ exports.receiveBook=catchAsync(async(req,res,next)=>{
     one_book.update({inLibrary:one_book.inLibrary+1,outLibrary:one_book.outLibrary-1})
     const action=await Actions.findOne({where:{studentId:req.body.studentId,bookId:req.body.bookId,receivedDate:null}})
     const d=new Date()
-    await action.update({receivedDate:d.getDate()+"."+d.getMonth()+"."+d.getFullYear()})
+    await action.update({receivedDate:d.getDate()+"."+d.getMonth()+"."+d.getFullYear(),status:"received"})
     await givenBook.destroy()
     return res.send("Sucess")
     
@@ -81,7 +82,13 @@ exports.getActions=catchAsync(async(req,res,next)=>{
     const limit=req.query.limit ||20
     const offset=req.query.offset || 0
     const actions=await Actions.findAll({limit,offset})
-    return res.send(actions)
+    let array=[]
+    for (const action of actions){
+        const student=await Students.findOne({where:{studentId:action.studentId}})
+        const book=await Books.findOne({where:{bookId:action.bookId}})
+        array.push({...action.dataValues,book,student})
+    }
+    return res.send(array)
 })
 exports.addFromExcel=catchAsync(async(req,res,next)=>{
     const filename="./static/books.xlsx"

@@ -26,7 +26,7 @@ const options = {
 		},
 		servers: [
 			{
-				url: "http://192.168.1.101:5019",
+				url: "http://localhost:5019",
 			},
 		],
 	},

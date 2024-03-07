@@ -16,13 +16,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       studentId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       bookId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       bookName: {
         type: Sequelize.STRING
+      },
+      status:{
+        type:Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
   Actions.init({
     receivedDate: DataTypes.STRING,
     givenDate: DataTypes.STRING,
-    studentId: DataTypes.INTEGER,
-    bookId: DataTypes.INTEGER,
-    bookName: DataTypes.STRING
+    studentId: DataTypes.STRING,
+    bookId: DataTypes.STRING,
+    status:DataTypes.STRING
   }, {
     sequelize,
     tableName:"actions",
