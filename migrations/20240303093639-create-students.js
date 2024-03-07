@@ -18,6 +18,9 @@ module.exports = {
       faculty: {
         type: Sequelize.STRING
       },
+      group:{
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

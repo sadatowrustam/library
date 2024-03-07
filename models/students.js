@@ -21,7 +21,9 @@ module.exports = (sequelize, DataTypes) => {
   Students.init({
     studentId: DataTypes.STRING,
     name: DataTypes.STRING,
-    faculty: DataTypes.STRING
+    faculty: DataTypes.STRING,
+    // students:DataTypes.STRING,
+    group:DataTypes.STRING
   }, {
     sequelize,
     tableName:"students",

@@ -28,7 +28,8 @@ exports.uploadStudentExcel=catchAsync(async(req,res,next)=>{
         const obj={
             studentId:oneData.id,
             name:oneData.name,
-            faculty:oneData.faculty
+            faculty:oneData.faculty,
+            group:oneData.group
             }
         array.push(obj)
     }
