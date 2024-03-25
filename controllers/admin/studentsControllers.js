@@ -56,19 +56,19 @@ exports.editBanner = catchAsync(async(req, res, next) => {
     await updateBanner.update(req.body)
     return res.status(200).send(updateBanner)
 })
-exports.deleteBanner = catchAsync(async(req, res, next) => {
+exports.deleteStudent = catchAsync(async(req, res, next) => {
     const id = req.params.id;
-    const banner = await Banners.findOne({ where: { id } });
+    const student = await Students.findOne({ where: { studentId:id } });
 
-    if (!banner)
-        return next(new AppError('Banner did not found with that ID', 404));
+    if (!student)
+        return next(new AppError('Student did not found with that ID', 404));
 
-    if (banner.image) {
-        fs.unlink(`static/${banner.image}`, function(err) {
-            if (err) throw err;
-        });
-    }
-    await banner.destroy();
+    // if (student.image) {
+    //     fs.unlink(`static/${student.image}`, function(err) {
+    //         if (err) throw err;
+    //     });
+    // }
+    await student.destroy();
 
     return res.status(200).send('Successfully Deleted');
 });
